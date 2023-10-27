@@ -13,6 +13,8 @@ if (process.env.TOKEN == null) {
     return 0;
 }
 
+const userMoney = new Map();
+
 const discordLogin = async() => {
     try {
         await client.login(process.env.TOKEN);  
@@ -22,38 +24,57 @@ const discordLogin = async() => {
     }
 }
 
-
 discordLogin();
-
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}.`);
 });
 
-  
 client.on('messageCreate', msg => {
-
     try { 
-        if (msg.content === process.env.PREFIX + 'call') msg.channel.send(`!callback`);
+        const embed = new Discord.MessageEmbed()
+            .setColor('#0099ff')
+            .setTimestamp()
+            .setFooter('디스코드봇 테스트');
 
-        if (msg.content === process.env.PREFIX + 'avatar') msg.channel.send(msg.author.displayAvatarURL());
-        
-        if(msg.content === process.env.PREFIX + 'help') {
-            const embed = new Discord.MessageEmbed()
-            .setTitle("도움말")
-            .setColor('000') 
-            .setDescription('디스코드봇 테스트입니다.');
-
-            msg.reply({ embeds: [embed] })
+        if (msg.content === process.env.PREFIX + 'call') {
+            embed.setDescription('!callback');
+            msg.reply({ embeds: [embed] });
         }
 
-        if(msg.content === process.env.PREFIX + 'server') {
-            msg.channel.send(`현재 서버의 이름은 ${msg.guild.name} 입니다.\n총 멤버 수는 ${msg.guild.memberCount} 명 입니다.`)
-          }
+        if (msg.content === process.env.PREFIX + 'avatar') {
+            embed.setImage(msg.author.displayAvatarURL());
+            msg.reply({ embeds: [embed] });
+        }
 
-        console.log(msg.content)
+        if (msg.content === process.env.PREFIX + 'help') {
+            embed.setTitle('도움말')
+                 .setDescription('디스코드봇 테스트입니다.');
+            msg.reply({ embeds: [embed] });
+        }
+
+        if (msg.content === process.env.PREFIX + 'server') {
+            embed.setDescription(`현재 서버의 이름은 ${msg.guild.name} 입니다.\n총 멤버 수는 ${msg.guild.memberCount} 명 입니다.`);
+            msg.reply({ embeds: [embed] });
+        }
+
+        if (msg.content === process.env.PREFIX + '일하기') {
+            const userId = msg.author.id;
+            const existingMoney = userMoney.get(userId) || 0;
+            const newMoney = Math.floor(Math.random() * (500 - 100 + 1)) + 100;
+            const totalMoney = existingMoney + newMoney;
+            userMoney.set(userId, totalMoney);
+
+            if (existingMoney > 0) {
+                embed.setDescription(`이전에 얻은 돈: ${existingMoney}\n새로 얻은 돈: ${newMoney}\n총 돈: ${totalMoney}`);
+            } else {
+                embed.setDescription(`새로 얻은 돈: ${newMoney}\n총 돈: ${totalMoney}`);
+            }
+            msg.reply({ embeds: [embed] });
+        }
+
+        console.log(msg.content);
     } catch (e) {
         console.log(e);
     }
-    
 });
