@@ -37,10 +37,6 @@ client.on('messageCreate', msg => {
             .setTimestamp()
             .setFooter('디스코드봇 테스트');
 
-        if (msg.content === process.env.PREFIX + 'call') {
-            embed.setDescription('!callback');
-            msg.reply({ embeds: [embed] });
-        }
 
         if (msg.content === process.env.PREFIX + 'avatar') {
             embed.setImage(msg.author.displayAvatarURL());
@@ -49,7 +45,7 @@ client.on('messageCreate', msg => {
 
         if (msg.content === process.env.PREFIX + 'help') {
             embed.setTitle('도움말')
-                 .setDescription('디스코드봇 테스트입니다.');
+                 .setDescription('&일하기: 명령어를 사용하여 일정 시스를 얻습니다.');
             msg.reply({ embeds: [embed] });
         }
 
@@ -66,9 +62,9 @@ client.on('messageCreate', msg => {
             userMoney.set(userId, totalMoney);
 
             if (existingMoney > 0) {
-                embed.setDescription(`이전에 얻은 돈: ${existingMoney}\n새로 얻은 돈: ${newMoney}\n총 돈: ${totalMoney}`);
+                embed.setDescription(`이전에 얻은 시스: ${existingMoney}\n새로 얻은 시스: ${newMoney}\n총 시스: ${totalMoney}`);
             } else {
-                embed.setDescription(`새로 얻은 돈: ${newMoney}\n총 돈: ${totalMoney}`);
+                embed.setDescription(`새로 얻은 시스: ${newMoney}\n총 시스: ${totalMoney}`);
             }
             msg.reply({ embeds: [embed] });
         }
