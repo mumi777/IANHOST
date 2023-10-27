@@ -35,7 +35,7 @@ client.on('messageCreate', msg => {
         const embed = new Discord.MessageEmbed()
             .setColor('#0099ff')
             .setTimestamp()
-            .setFooter('디스코드봇 테스트');
+            .setFooter('상점과 경매의 신 이안');
 
 
         if (msg.content === process.env.PREFIX + 'avatar') {
