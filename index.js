@@ -49,6 +49,12 @@ client.on('messageCreate', msg => {
             msg.reply({ embeds: [embed] });
         }
 
+        if (msg.content === process.env.PREFIX + '핑') {
+            const ping = Date.now() - msg.createdTimestamp;
+            embed.setDescription(`핑: ${ping}ms`);
+            msg.reply({ embeds: [embed] });
+        }
+
         if (msg.content === process.env.PREFIX + 'server') {
             embed.setDescription(`현재 서버의 이름은 ${msg.guild.name} 입니다.\n총 멤버 수는 ${msg.guild.memberCount} 명 입니다.`);
             msg.reply({ embeds: [embed] });
