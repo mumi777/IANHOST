@@ -28,6 +28,7 @@ discordLogin();
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}.`);
+    client.user.setActivity('상점 정리', { type: 'PLAYING' });
 });
 
 client.on('messageCreate', msg => {
